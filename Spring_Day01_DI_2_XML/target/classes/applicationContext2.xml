@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd"> 
+	
+	<!-- programmer와 desktop의 관계는 programmer 객체는 desktop을 가지고 있는 관계 -->
+	<!-- 애초에 bean에서 programmer에 desktop을 주입하자 -->
+	<bean class="com.ssafy.di.Desktop" id="desktop"></bean>
+	<bean class="com.ssafy.di.Programmer" id="programmer">
+		<constructor-arg ref="desktop"></constructor-arg> <!-- 생성자 주입으로 desktop이 주입됨 -->
+	</bean>
+		
+	<!-- 설정자 주입 -->
+	<!-- 생성자 주입보다 설정자 주입을 더 많이 쓴다. -->
+	<bean class="com.ssafy.di.Programmer" id="programmer">
+		<property name="computer" ref="desktop"></property> <!-- name에는 setter의 이름이 들어가야하는데 setComputer라면 set은 안쓰고 computer만 써줌 -->
+	</bean>
+
+</beans>
