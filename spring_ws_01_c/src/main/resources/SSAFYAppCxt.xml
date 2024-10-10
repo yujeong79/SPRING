@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 학생(Student) 정보 등록 (학번, 이름) -->
+	<!-- bean의 id를 부여하는 이유는 다른 bean에서 참조하기 위함 -->
+	<!-- 아래의 3가지 중 방법을 선택하여 5명 이상의 학생을 등록해보자 -->
+
+	<!-- 객체를 생성할 때, 생성자를 이용하여 값을 주입 -->
+	<!-- 명시한 인자 순서대로 값을 주입하여 생성자를 통해 객체 생성 -->
+	<!-- 객체를 비어있는 객체로 생성한 후, property를 이용하여 값을 주입 -->
+		
+	<bean class="com.ssafy.ws.Student" id="student1">
+		<property name="id" value="200001"></property>
+		<property name="name" value="홍길동"></property>
+	</bean>
+	<bean class="com.ssafy.ws.Student" id="student2">
+		<property name="id" value="200002"></property>
+		<property name="name" value="이순신"></property>
+	</bean>
+	<bean class="com.ssafy.ws.Student" id="student3">
+		<property name="id" value="200003"></property>
+		<property name="name" value="유관순"></property>
+	</bean>
+	<bean class="com.ssafy.ws.Student" id="student4">
+		<property name="id" value="200004"></property>
+		<property name="name" value="강감찬"></property>
+	</bean>
+	<bean class="com.ssafy.ws.Student" id="student5">
+		<property name="id" value="200005"></property>
+		<property name="name" value="김유신"></property>
+	</bean>
+	
+	
+	<!-- 반(Classroom)의 이름과 학생 정보 등록 -->
+	<bean class="com.ssafy.ws.Classroom" id="classroom">
+		<property name="name" value="서울 99반"/>
+		<property name="students">
+			<list>
+				<ref bean="student1"/>
+				<ref bean="student2"/>
+				<ref bean="student3"/>
+				<ref bean="student4"/>
+				<ref bean="student5"/>
+			</list>
+		</property>
+	</bean>
+</beans>
