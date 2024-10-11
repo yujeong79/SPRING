@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>Spring_Day02_AOP_3_Annotation</groupId>
-  <artifactId>Spring_Day02_AOP_3_Annotation</artifactId>
+  <groupId>Spring_Day02_AOP_2_XML</groupId>
+  <artifactId>Spring_Day02_AOP_2_XML</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
