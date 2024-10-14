@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- Web과 직접적으로 관련된 설정을 하는 파일 -->
+	 
+	 <!-- View Resolver를 등록해주어야 한다. -->
+	 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	 	<!-- prefix라는 setter(setPrefix 메서드가 있음)를 통해서 value를 등록 하겠다는 의미 -->
+	 	<property name="prefix" value="/WEB-INF/view/"></property> <!-- 이렇게 prefix를 set 했으니까 ModelAndView에서 View를 받으면 View Resolver가 실제 경로를 반환할 수 있다.  -->
+	 	<property name="suffix" value=".jsp"></property> <!-- 뒤엔 알아서 .jsp도 붙여준다. -->
+	 </bean>
+	 
+	 <!-- 핸들러매핑은 기본적으로 사용하는게 있음! 내가 등록하지 않아도 괜찮아~ -->
+	 
+	 <!-- Controller는 등록해야해~ -->
+	 <!-- 한 번에 Bean으로 등록하자~ -->
+	 <context:component-scan base-package="com.ssafy.mvc.controller"></context:component-scan>
+	 
+</beans>

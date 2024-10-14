@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
+  <display-name>Spring_Day03_MVC</display-name>
+  
+  <servlet>
+  	<servlet-name>springDispatcherServlet</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<init-param> <!-- init 작업을 수행 -->
+  		<param-name>contextConfigLocation</param-name> <!-- 이름 -->
+  		<param-value>/WEB-INF/servlet-context.xml</param-value> <!-- 이게 뭔디 만든 servlet-context.xml 파일임 -->
+  	</init-param>
+  	<load-on-startup>1</load-on-startup> <!-- 해당 서블릿은 app application 시작 시점에 즉시 초기화되고 로딩된다는 의미 -->
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>springDispatcherServlet</servlet-name>
+  	<url-pattern>/</url-pattern> <!-- 모든 요청은 DispatcherServlet으로 가야한다는 의미 -->
+  </servlet-mapping>
+  
+  <!-- 이걸로 root-context.xml을 처리하는데 나중에 배울거니까 일단 지금은 넘어가자 -->
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>/WEB-INF/root-context.xml</param-value>
+  </context-param>
+  
+</web-app>
