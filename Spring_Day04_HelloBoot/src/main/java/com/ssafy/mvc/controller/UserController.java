@@ -29,7 +29,7 @@ public class UserController {
 		session.setAttribute("loginUser", user.getId());
 		
 		// return "hello"; => 포워딩 방식, URL 주소가 달라지지 않고 바로 prefix와 suffix가 붙어서 hello.jsp 페이지로 이동한다.
-		return "redirect : hello"; // "hello" 요청을 다시 보내게 돼서 -> HelloController의 /hello 요청으로 들어가게 되고 hello 메서드를 실행하게 된다.
+		return "redirect:hello"; // "hello" 요청을 다시 보내게 돼서 -> HelloController의 /hello 요청으로 들어가게 되고 hello 메서드를 실행하게 된다.
 	}
 	
 	@GetMapping("/logout")
