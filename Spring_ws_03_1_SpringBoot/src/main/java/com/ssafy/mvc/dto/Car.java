@@ -1,4 +1,4 @@
-package com.ssafy.ws.model.dto;
+package com.ssafy.mvc.dto;
 
 public class Car {
 
