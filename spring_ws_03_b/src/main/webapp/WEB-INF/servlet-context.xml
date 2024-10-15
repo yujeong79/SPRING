@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- Servlet Context: MVC 디스패처 서블릿의 context를 정의합니다 -->
+
+	<!-- Q5. 컨트롤러들을 자동으로 스캔하여 빈으로 등록합니다 -->
+	<context:component-scan base-package="com.ssafy.ws.controller"></context:component-scan>
+
+	<!-- Q6. 컨트롤러들에 의해 렌더링될 뷰를 /WEB-INF/views 디렉토리의 .jsp 리소스로 해석합니다 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+</beans>
