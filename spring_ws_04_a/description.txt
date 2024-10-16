@@ -1,0 +1,2 @@
+web.xml에 interception A, B, C 세 개의 interception을 등록하고
+  각각의 interception에 exclude-path을 설정하여 어떤 요청을 보낼 때 어떤 interception이 동작하고 어떤 interception은 제외되는지 살펴본다.
