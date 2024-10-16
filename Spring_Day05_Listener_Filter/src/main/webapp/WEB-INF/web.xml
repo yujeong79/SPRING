@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
+  <display-name>Spring_Day05_Listener_Filter</display-name>
+  <listener>
+    <listener-class>com.ssafy.listener.MyListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>Welcome</param-name>
+    <param-value>Hello SSAFY</param-value>
+  </context-param>
+  <filter>
+    <display-name>MyFilter</display-name>
+    <filter-name>MyFilter</filter-name>
+    <filter-class>com.ssafy.filter.MyFilter</filter-class>
+  	<init-param> <!-- 이 필터를 거치는 순간 들어오는 데이터가 UTF-16으로 바뀜 -->
+  		<param-name>encoding</param-name>
+  		<param-value>UTF-16</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>MyFilter</filter-name>
+    <url-pattern>/*</url-pattern> <!-- 모든 경로 -->
+  </filter-mapping>
+  
+  <!-- 위의 MyFilter 동작하고 MyFilter2 동작 -->
+  
+  <filter>
+    <display-name>MyFilter2</display-name>
+    <filter-name>MyFilter2</filter-name>
+    <filter-class>com.ssafy.filter.MyFilter2</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>MyFilter2</filter-name>
+    <url-pattern>/*</url-pattern> <!-- 모든 경로 -->
+  </filter-mapping>
+  
+</web-app>
