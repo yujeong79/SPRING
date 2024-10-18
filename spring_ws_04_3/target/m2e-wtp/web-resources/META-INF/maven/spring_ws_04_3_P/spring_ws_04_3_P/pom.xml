@@ -4,8 +4,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                       https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>spring_ws_04_1_P</groupId>
-  <artifactId>spring_ws_04_1_P</artifactId>
+  <groupId>spring_ws_04_3_P</groupId>
+  <artifactId>spring_ws_04_3_P</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <properties>
@@ -112,8 +112,10 @@
 	    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
 	    <version>3.0.1</version>
 	</dependency>
+
+
+
   </dependencies>
-  
   <build>
     <plugins>
       <plugin>
