@@ -3,6 +3,13 @@ package com.ssafy.sb.controller;
 import java.io.IOException;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ssafy.sb.model.dto.Minkyu;
 import com.ssafy.sb.model.service.MinkyuService;
@@ -19,98 +26,58 @@ public class MinkyuController extends HttpServlet {
 
 	private MinkyuService service = MinkyuServiceImpl.getInstance();
 
-	@Override
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
-
-		switch (action) {
-		case "registform":
-			doRegistForm(request, response);
-			break;
-		case "regist":
-			doRegist(request, response);
-			break;
-		case "list":
-			doList(request, response);
-			break;
-		case "detail":
-			doDetail(request, response);
-			break;
-		case "delete":
-			doRemove(request, response);
-			break;
-		case "updateform":
-			doUpdateForm(request, response);
-			break;
-		case "update":
-			doUpdate(request, response);
-			break;
-		default:
-			response.sendRedirect(request.getContextPath());
-			break;
-		}
+	@GetMapping("/minsseam/updateform")
+	private String doUpdateForm(@RequestParam("id") int id, Model model) {
+		System.out.println(id);
+		model.addAttribute("minkyu", service.getMinkyu(id));
+		return "minkyu/updateform";
 	}
-
-	private void doUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Minkyu minkyu = new Minkyu();
-
-		minkyu.setUserid(Integer.parseInt(request.getParameter("id")));
-		minkyu.setName(request.getParameter("name"));
-		minkyu.setEmail(request.getParameter("email"));
-		
+	
+	@PostMapping("/minsseam/update")
+	private String doUpdate(@ModelAttribute Minkyu minkyu) {
+		System.out.println(minkyu.getUserid());
 		service.changeMinkyu(minkyu);
-		
-		response.sendRedirect("minsseam?action=detail&id="+minkyu.getUserid());
+		return "redirect:/minsseam/list";
 	}
 
-	private void doUpdateForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int id = Integer.parseInt(request.getParameter("id"));
-		request.setAttribute("minkyu", service.getMinkyu(id));
-		RequestDispatcher dispatcher = request.getRequestDispatcher(prefix + "updateform.jsp");
-		dispatcher.forward(request, response);
-	}
-
-	private void doRemove(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		int id = Integer.parseInt(request.getParameter("id"));
+	@GetMapping("/minsseam/delete")
+	private String doRemove(@RequestParam("id") int id) {
 		service.removeMinkyu(id);
-		
-		response.sendRedirect("minsseam?action=list");
+		return "redirect:/minsseam/list";
 	}
 
-	private void doDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int id = Integer.parseInt(request.getParameter("id"));
-		request.setAttribute("minkyu", service.getMinkyu(id));
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher(prefix + "detail.jsp");
-		dispatcher.forward(request, response);
+	@GetMapping("/minsseam/detail")
+	private String doDetail(@RequestParam("id") int id, Model model) {
+		model.addAttribute("minkyu", service.getMinkyu(id));
+		return "minkyu/detail";
 	}
 
-	private void doList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// controller -> service -> dao -> DB select * from minkyu
-		// selectAll 해서 조회해온 List를 request에 담아서 list.jsp로 보내기
-		
-		request.setAttribute("list", service.getMinkyuList());
-		RequestDispatcher dispatcher = request.getRequestDispatcher(prefix + "list.jsp");
-		dispatcher.forward(request, response);
+//	@RequestMapping(value = "/minsseam/list", method = RequestMethod.GET)
+	@GetMapping("/minsseam/list")
+	private String doList(Model model) {
+		model.addAttribute("list", service.getMinkyuList());
+		return "minkyu/list";
 	}
+	
+	// ModelAndView 사용법
+//	@GetMapping("/minsseam/list")
+//	private ModelAndView doList(ModelAndView mav) {
+//		mav.addObject("list", service.getMinkyuList()); // 데이터 셋팅
+//		mav.setViewName("minkyu/list");
+//		return mav;
+//	}
 
-	private void doRegist(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		String name = request.getParameter("name");
-		String email = request.getParameter("email");
-		
+	@GetMapping("/minsseam/registform")
+	private String doRegistForm() {
+		return "minkyu/registform";
+	}
+	
+	@PostMapping("/minsseam/regist")
+	private String doRegist(@RequestParam("name") String name, @RequestParam("email") String email, Model model) {
 		Minkyu minkyu = new Minkyu(name, email);
-		request.setAttribute("minkyu", minkyu);
-		
 		service.registMinkyu(minkyu);
 		
-		// 등록 완료 후 목록으로 이동해야하는데
-		// 목록으로 갈 땐 리스트 데이터를 가지고 가야하니까 서블릿 action=list sendRedirect를 해주어야한다.
-		response.sendRedirect("minsseam?action=list");
+		return "redirect:/minsseam/list";
 	}
-
-	private void doRegistForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher(prefix + "registform.jsp");
-		
-		dispatcher.forward(request, response);
-	}
+	
 }

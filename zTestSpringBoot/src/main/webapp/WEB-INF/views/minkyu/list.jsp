@@ -16,14 +16,15 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${list }" var="minkyu">
+		<c:forEach items="${list}" var="minkyu">
 			<tr>
-				<td><a href="minsseam?action=detail&id=${minkyu.userid}">${minkyu.userid}</a></td>
+				<!-- detail까지 요청이고 query String 시작은 ? -->
+				<td><a href="/minsseam/detail?id=${minkyu.userid}">${minkyu.userid}</a></td>
 				<td>${minkyu.name}</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 	</table>
-	<a href="minsseam?action=registform">학생 등록</a>
+	<a href="/minsseam/registform">학생 등록</a>
 </body>
 </html>
