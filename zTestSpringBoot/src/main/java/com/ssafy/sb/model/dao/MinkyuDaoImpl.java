@@ -38,7 +38,6 @@ public class MinkyuDaoImpl implements MinkyuDao {
 	@Override
 	public void InsertMinkyu(Minkyu minkyu) {
 		minkyu.setUserid(listIndex);
-		
 		minkyus.put(listIndex++, minkyu);
 	}
 
@@ -60,24 +59,12 @@ public class MinkyuDaoImpl implements MinkyuDao {
 
 	@Override
 	public void updateMinkyu(Minkyu minkyu) {
-		int id = minkyu.getUserid();
-		
-		for(Integer key : minkyus.keySet()) {
-			if(key == id) {
-				minkyus.get(key).setName(minkyu.getName());
-				minkyus.get(key).setEmail(minkyu.getEmail());
-				return;
-			}
-		}
+		minkyus.get(minkyu.getUserid()).setName(minkyu.getName());
+		minkyus.get(minkyu.getUserid()).setEmail(minkyu.getEmail());
 	}
 
 	@Override
 	public void deleteMinkyu(int id) {
-		for(Integer key : minkyus.keySet()) {
-			if(key == id) {
-				minkyus.remove(key);
-				return;
-			}
-		}
+		minkyus.remove(id);
 	}
 }

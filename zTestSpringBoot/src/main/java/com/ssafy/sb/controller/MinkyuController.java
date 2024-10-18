@@ -28,14 +28,12 @@ public class MinkyuController extends HttpServlet {
 
 	@GetMapping("/minsseam/updateform")
 	private String doUpdateForm(@RequestParam("id") int id, Model model) {
-		System.out.println(id);
 		model.addAttribute("minkyu", service.getMinkyu(id));
 		return "minkyu/updateform";
 	}
 	
 	@PostMapping("/minsseam/update")
 	private String doUpdate(@ModelAttribute Minkyu minkyu) {
-		System.out.println(minkyu.getUserid());
 		service.changeMinkyu(minkyu);
 		return "redirect:/minsseam/list";
 	}
