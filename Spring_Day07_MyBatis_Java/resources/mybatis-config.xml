@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<typeAliases>
+	<typeAlias type="com.ssafy.board.model.dto.Board" alias="Board"/>
+</typeAliases>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/ssafy_board?serverTimezone=UTC"/>
+        <property name="username" value="ssafy"/>
+        <property name="password" value="ssafy"/>
+      </dataSource>
+    </environment>
+  </environments>
+  
+  <mappers>
+  	<mapper resource="mappers/boardMapper.xml"/>
+  </mappers>
+  
+</configuration>
