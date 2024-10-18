@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
+@RequestMapping("/minsseam") // 공통 경로는 Controller 앞에 붙일 수 있다.
 public class MinkyuController extends HttpServlet {
 
 	private MinkyuService service = MinkyuServiceImpl.getInstance();
@@ -32,26 +33,26 @@ public class MinkyuController extends HttpServlet {
 		return "minkyu/updateform";
 	}
 	
-	@PostMapping("/minsseam/update")
+	@PostMapping("/update")
 	private String doUpdate(@ModelAttribute Minkyu minkyu) {
 		service.changeMinkyu(minkyu);
 		return "redirect:/minsseam/list";
 	}
 
-	@GetMapping("/minsseam/delete")
+	@GetMapping("/delete")
 	private String doRemove(@RequestParam("id") int id) {
 		service.removeMinkyu(id);
 		return "redirect:/minsseam/list";
 	}
 
-	@GetMapping("/minsseam/detail")
+	@GetMapping("/detail")
 	private String doDetail(@RequestParam("id") int id, Model model) {
 		model.addAttribute("minkyu", service.getMinkyu(id));
 		return "minkyu/detail";
 	}
 
 //	@RequestMapping(value = "/minsseam/list", method = RequestMethod.GET)
-	@GetMapping("/minsseam/list")
+	@GetMapping("/list")
 	private String doList(Model model) {
 		model.addAttribute("list", service.getMinkyuList());
 		return "minkyu/list";
@@ -65,12 +66,12 @@ public class MinkyuController extends HttpServlet {
 //		return mav;
 //	}
 
-	@GetMapping("/minsseam/registform")
+	@GetMapping("/registform")
 	private String doRegistForm() {
 		return "minkyu/registform";
 	}
 	
-	@PostMapping("/minsseam/regist")
+	@PostMapping("/regist")
 	private String doRegist(@RequestParam("name") String name, @RequestParam("email") String email, Model model) {
 		Minkyu minkyu = new Minkyu(name, email);
 		service.registMinkyu(minkyu);
