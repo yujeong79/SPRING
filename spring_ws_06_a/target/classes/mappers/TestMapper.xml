@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace는 연결할 매퍼 인터페이스의 전체 식별자 이름(full identifier, 패키지+클래스명)으로 설정한다. -->
+<mapper namespace="com.ssafy.ws.model.dao.TestDao">
+
+	<!-- 사용자 이름으로 검색하여 조회한다. id는 repo클래스의 메소드 이름과 일치시킨다. -->
+	<select id="getCurrentDate" resultType="DateDto">
+		SELECT 
+			YEAR(NOW()) AS year, 
+			MONTH(NOW()) AS month, 
+			DAYOFMONTH(NOW()) AS day 
+		FROM DUAL
+	</select>
+	
+</mapper>
