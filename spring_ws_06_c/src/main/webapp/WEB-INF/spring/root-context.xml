@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- 어노테이션으로 설정한 model 패키지 하위 클래스를 빈으로 등록하기 위해 컴포넌트 스캔 범위 지정 -->
+	<!--  Q13. com.ssafy.ws.model 패키지, com.ssafy.ws.service 패키지 하위 클래스를 빈으로 등록하기 위해 컴포넌트 스캔 범위 지정 -->
+	<context:component-scan
+		base-package="com.ssafy.ws.model.dao, com.ssafy.ws.service"></context:component-scan>
+
+
+	<!-- Q14. 데이터베이스 연결을 위한 dataSource를 등록한다. -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- 데이터베이스 연결을 위한 드라이버 클래스명, url, 사용자 이름, 비밀번호를 설정한다. -->
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/ssafydb?serverTimezone=UTC"></property>
+		<property name="username" value="ssafy"></property>
+		<property name="password" value="ssafy"></property>
+	</bean>
+
+	<!-- Q15. MyBatis를 사용하기 위한 sqlSessionFactory를 등록한다. -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--데이터베이스 연결을 위한 dataSource를 설정한다. -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- mapper xml 파일의 경로를 지정합니다. (ant 형식) -->
+		<property name="mapperLocations" value="classpath*:mappers**/*.xml" />
+		<!-- mapper에서 사용할 DTO들의 기본 패키지를 등록한다. -->
+		<property name="typeAliasesPackage" value="com.ssafy.ws.model.dto"></property>
+	</bean>
+	
+	<!-- Q16. -->
+	<mybatis:scan base-package="com.ssafy.ws.model.dao"/>
+	
+	<!-- Transaction 처리를 위한 transactionManager를 등록한다. (아이디는 언제나 고정한다.) -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<constructor-arg ref="dataSource"></constructor-arg>
+	</bean>
+	
+	<!-- 트랜잭션 기능을 사용하기 위해 트랜잭션 매니저 등록 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>
