@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 CarRepo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.ssafy.ws.model.dao.CarDao">
+
+	<!-- 자동차 정보를 저장한다. id는 dao클래스의 메소드 이름과 일치시킨다. -->
+	<insert id="insert">
+		INSERT INTO car
+		VALUES(#{vin}, #{modelName}, #{color}, #{mileage}, #{img})
+	</insert>
+
+	<!-- 자동차를 vin으로 검색하여 조회한다. id는 dao클래스의 메소드 이름과 일치시킨다. -->
+	<select id="searchByVin">
+		SELECT *
+		FROM car WHERE vin = #{vin}
+	</select>
+
+	<!-- 자동차를 모델로 검색하여 조회한다. id는 dao클래스의 메소드 이름과 일치시킨다. -->
+	<select id="searchByModelName">
+		SELECT *
+		FROM car WHERE modelName LIKE
+		CONCAT('%',#{modelName},'%')
+	</select>
+
+	<!-- 모든 자동차 정보를 검색한다. id는 dao클래스의 메소드 이름과 일치시킨다. -->
+	<select id="selectAll">
+		SELECT * FROM car
+	</select>
+</mapper>
