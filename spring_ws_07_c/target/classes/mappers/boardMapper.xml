@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.ws.model.dao.BoardDao">
+	<!-- 전체글 조회 -->
+	<select id="selectAll" resultType="Board">
+		SELECT * 
+		FROM board;
+	</select>
+
+	<!-- 상세글 조회 -->
+	<select id="selectOne" parameterType="int" resultType="Board">
+		SELECT *
+		FROM board
+		WHERE id = #{id};
+	</select>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard" parameterType="Board">
+		INSERT INTO board (title, content)
+		VALUES (#{title}, #{content})
+	</insert>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="board">
+		UPDATE board
+		SET title = #{title}, content = #{content}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 게시글 조회수 증가 -->
+	<update id="updateViewCnt" parameterType="int">
+        UPDATE board
+        SET viewCnt = viewCnt + 1
+        WHERE id = #{id}
+    </update>
+	
+	<!--  
+	    동적 쿼리: 조건에 따라 다른 쿼리를 실행할 수 있도록 하는 것 (동적으로 쿼리문을 생성)
+		
+		동적 쿼리 작성법
+		
+		1. if문 사용 (if-else문과 유사)
+		<if test="조건식">
+           쿼리문
+        </if>
+		- test는 조건식을 의미한다.
+		
+		2. trim 사용 (여러개의 조건문을 사용할 때)
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="조건식1">
+                AND column1 = #{column1}
+            </if>
+            <if test="조건식2">
+                AND column2 = #{column2}
+            </if>
+        </trim>
+        - prefix는 해당 문자열을 추가한다.
+        - prefixOverrides는 해당 문자열이 포함된 문자열을 제거한다.
+        
+	-->
+	
+	<!-- Q1. 게시글 검색 -->
+	<!--  
+		검색 조건에 따라 게시글을 검색하는 쿼리문
+        검색 조건: 제목, 내용, 정렬, 정렬방향
+        
+        제목, 내용은 like 연산자를 사용하여 검색
+        정렬은 order by를 사용하여 정렬
+        정렬방향은 asc, desc로 설정
+        
+        (검색 조건이 없을 경우 전체 게시글을 검색)
+	-->
+	<select id="searchBoard" parameterType="SearchCondition" resultType="Board">
+        SELECT *
+        FROM board
+        WHERE 
+            <trim prefixOverrides="AND">
+	        	<if test="title != null">
+	        		AND title LIKE concat('%', #{title}, '%')
+	        	</if>
+	        	<if test="content != null">
+        			AND content LIKE concat('%', #{content}, '%')
+	       		</if>
+       		</trim>
+       	<if test="order != null">
+       	ORDER BY ${order} ${direction}
+       	</if>
+     </select>
+</mapper>
