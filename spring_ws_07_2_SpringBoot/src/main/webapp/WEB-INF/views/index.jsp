@@ -10,8 +10,8 @@
 	<%@ include file="/WEB-INF/views/include/header.jsp" %>
 	
 	<ul>
-		<li><a href="/regist">영화 등록</a></li>
-		<li><a href="/list">영화 목록</a></li>
+		<li><a href="/movie/regist">영화 등록</a></li>
+		<li><a href="/movie/list">영화 목록</a></li>
 	</ul>
 </body>
 </html>
