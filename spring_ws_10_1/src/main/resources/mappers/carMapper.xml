@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 CarRepo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.ssafy.ws.model.dao.CarDao">
+	
+	<!-- 전체 자동차 목록 가져오기 -->
+	<select id="selectAll">
+		SELECT * FROM car;
+	</select>
+	
+	<!-- 자동차 등록 -->
+	<insert id="insert">
+		INSERT INTO car
+		VALUES (#{vin}, #{modelName}, #{color}, #{mileage}, #{img});
+	</insert>
+	
+	<!-- 특정 Vin 자동차 가져오기 -->
+	<select id="selectByVin">
+		SELECT * FROM car
+		WHERE vin=#{vin};
+	</select>
+	
+	
+</mapper>
