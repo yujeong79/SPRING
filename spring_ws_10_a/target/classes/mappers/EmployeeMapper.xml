@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace는 연결할 매퍼 인터페이스의 전체 식별자 이름(full identifier, 패키지+클래스명)으로 설정한다. -->
+<mapper namespace="com.ssafy.ws.model.dao.EmployeeDao">
+	<!-- 
+		맵핑 파일을 작성하는 방법은 다음과 같다.
+		1. select, insert, update, delete 태그를 사용한다.
+		  - select(조회): 매핑된 SELECT SQL문을 실행하고 결과를 반환한다. (resultType 속성에 반환할 객체의 클래스 이름을 설정하며, 성공하면 객체를 반환하고, 실패하면 에러를 반환한다.)
+		  - insert(삽입): 매핑된 INSERT SQL문을 실행하고 결과를 반환한다. (성공하면 1을 반환하고, 에러가 발생하면 에러를 반환한다.)
+		  - update(수정): 매핑된 UPDATE SQL문을 실행하고 결과를 반환한다. (수정한 행의 수를 반환하고(없다면 0), 에러가 발생하면 에러를 반환한다.)
+		  - delete(삭제): 매핑된 DELETE SQL문을 실행하고 결과를 반환한다. (삭제한 행의 수를 반환하고(없다면 0), 에러가 발생하면 에러를 반환한다.)
+		2. id 속성에는 DAO 인터페이스의 메소드 이름을 일치시킨다.
+		3. resultType 속성에는 반환할 객체의 클래스 이름을 설정한다. (패키지명 포함하되, 별칭을 등록한 경우 클래스명만 설정한다.)
+		4. SQL문을 작성한다.
+	       - 만약 SQL문에 파라미터를 사용하려면 #{}을 사용하여 문자열 형태로 파라미터를 전달한다 (#{파라미터명} -> '파라미터값', 이때에 파라미터명은 DTO의 필드명과 일치시킨다.)
+	       - ${}를 사용하면 파라미터가 SQL쿼리문에 바로 출력된다. (이때에는 SQL Injection 공격에 취약하다.)
+	 -->
+	<!--  모든 사원을 조회한다. selectAll은 DAO인터페이스, EmployeeDao 클래스의 메소드 이름과 일치시킨다. -->
+    <select id="selectAll" resultType="EmployeeDto">
+        SELECT * FROM employee
+    </select>
+	<!-- 사원의 id로 검색하여 조회한다. id는 DAO인터페이스, EmployeeDao 클래스의 메소드 이름과 일치시킨다. -->
+	<!-- 검색할 사원의 id를 전달받아 해당 사원을 조회한다. -->
+    <select id="selectOne" resultType="EmployeeDto">
+        SELECT * FROM employee WHERE id = #{id}
+    </select>
+
+	<!-- 사원을 추가한다. insert는 DAO인터페이스, EmployeeDao 클래스의 메소드 이름과 일치시킨다. -->
+	<!-- 추가할 사원의 id, name, position, department를 전달받아 해당 사원을 추가한다. -->
+    <insert id="insert" parameterType="EmployeeDto">
+        INSERT INTO employee (id, name, position, department)
+        VALUES (#{id}, #{name}, #{position}, #{department})
+    </insert>
+
+	<!-- 사원을 수정한다. update는 DAO인터페이스, EmployeeDao 클래스의 메소드 이름과 일치시킨다. -->
+    <!-- 수정할 사원의 id, name, position, department를 전달받아 해당 사원의 정보를 수정한다. -->
+    <update id="update" parameterType="EmployeeDto">
+        UPDATE employee SET name=#{name}, position=#{position}, department=#{department}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 사원을 삭제한다. delete는 DAO인터페이스, EmployeeDao 클래스의 메소드 이름과 일치시킨다. -->
+    <!-- 삭제할 사원의 id를 전달받아 해당 사원을 삭제한다. -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM employee 
+        WHERE id = #{id}
+    </delete>
+	
+</mapper>
