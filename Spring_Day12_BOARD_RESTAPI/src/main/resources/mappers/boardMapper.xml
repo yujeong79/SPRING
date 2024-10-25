@@ -43,7 +43,7 @@
 	</select>
 	
 	<!-- 게시글 등록 -->
-	<insert id="insertBoard" parameterType="Board">
+	<insert id="insertBoard" parameterType="Board" keyProperty="id" useGeneratedKeys="true">
 		INSERT INTO board (title, writer, content)
 		VALUES (#{title}, #{writer}, #{content});	
 	</insert>
