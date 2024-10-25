@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space는 UserRepo의 fully qualified name으로 설정한다. -->
+<mapper namespace="com.ssafy.hw.model.dao.UserDao">
+	
+	<!-- 전체 사용자 목록 -->
+	<select id="selectAll">
+		SELECT *
+		FROM users;
+	</select>
+	
+	<!-- 사용자 삽입 -->
+	<insert id="insert">
+		INSERT INTO users
+		VALUES(#{id}, #{password}, #{name}, #{email}, #{age});
+	</insert>
+	
+	<!-- ID로 사용자 조회 -->
+	<select id="selectById">
+		SELECT *
+		FROM users
+		WHERE id=#{id};
+	</select>
+	
+	<!-- 사용자 검색 -->
+	<select id="selectByCondition">
+		SELECT *
+		FROM users
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="key != 'none'">
+				AND ${key} LIKE CONCAT ('%', #{word}, '%')
+			</if>
+			<if test="orderBy != 'none'">
+				ORDER BY ${orderBy} ${orderByDir}
+			</if>
+		</trim>
+	</select>
+	
+</mapper>
