@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mvc.model.dao.BookDao">
+
+	<!-- 검색 조건에 해당하는 도서 목록 반환 -->
+	<select id="selectByCondition">
+		SELECT * FROM book
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="key != null">
+				AND ${key} LIKE CONCAT ('%', #{word}, '%')
+			</if>
+			<if test="orderBy != null">
+				ORDER BY ${orderBy} ${orderByDir}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- Book 저장 -->
+	<insert id="insertBook" keyProperty="isbn" useGeneratedKeys="true">
+		INSERT INTO book
+		VALUES (#{isbn}, #{title}, #{author}, #{price}, #{content}, #{img});
+	</insert>
+	
+	<!-- Book 수정 -->
+	<update id="updateBook">
+		UPDATE book
+		SET title=#{title}, author=#{author}, price=#{price}, content=#{content}, img=#{img}
+		WHERE isbn=#{isbn};
+	</update>
+	
+	<!-- isbn에 해당하는 Book 객체 반환 -->
+	<select id="selectByIsbn">
+		SELECT * FROM book
+		WHERE isbn=#{isbn};
+	</select>
+	
+	<!-- Book 객체 삭제 -->
+	<delete id="deleteBook">
+		DELETE FROM book
+		WHERE isbn=#{isbn};
+	</delete>
+
+</mapper>
