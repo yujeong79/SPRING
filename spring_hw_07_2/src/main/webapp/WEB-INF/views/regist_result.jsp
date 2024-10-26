@@ -51,7 +51,7 @@ td:nth-child(3) {
 				<!-- 이미지 추가, src 경로 주의! -->
 				<c:if test="${not empty user.img}">
 					<td rowspan="5">
-						<img id="profile" src="${pageContext.servletContext.contextPath}/resources/upload/${user.img }">
+						<img id="profile" src="static/img/${user.img}">
 					</td>
 				</c:if>
 			</tr>

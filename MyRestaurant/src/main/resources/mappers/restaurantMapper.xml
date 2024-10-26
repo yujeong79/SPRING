@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.restaurant.mvc.model.dao.RestaurantDao">
+
+	<!-- Restaurant 조회 -->
+	<select id="selectByCondition" resultType="Restaurant">
+		SELECT r.id, r.name, r.location, r.category_code AS categoryCode, c.name AS categoryName, r.signature_menu, r.phone_number, r.img
+		FROM restaurant r LEFT OUTER JOIN category c ON r.category_code = c.code
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="key != null">
+				AND ${key} LIKE CONCAT ('%', #{word}, '%')
+			</if>
+			<if test="orderBy != null">
+				ORDER BY ${orderBy} ${orderByDir}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- Restaurant 객체 등록 -->
+	<insert id="insertRestaurant" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO restaurant (name, location, category_code, signature_menu, phone_number, img)
+		VALUES (#{name}, #{location}, #{categoryCode}, #{signatureMenu}, #{phoneNumber}, #{img});
+	</insert>
+	
+	<!-- id에 해당하는 Restaurant 객체 반환 -->
+	<select id="selectById">
+		SELECT r.id, r.name, r.location, r.category_code AS categoryCode, c.name AS categoryName, r.signature_menu AS signatureMenu, r.phone_number AS phoneNumber, r.img AS img
+		FROM restaurant r LEFT OUTER JOIN category c ON r.category_code = c.code
+		WHERE r.id=#{id};
+	</select>
+	
+	<!-- id에 해당하는 Restaurant 객체 수정 -->
+	<update id="updateById">
+		UPDATE FROM restaurant
+		SET name=#{name}, location=#{location}, category_code=#{categoryCode}, signature_menu=#{signatureMenu}, phone_number=#{phoneNumber}, img=#{img}
+		WHERE id=#{id};
+	</update>
+	
+</mapper>  

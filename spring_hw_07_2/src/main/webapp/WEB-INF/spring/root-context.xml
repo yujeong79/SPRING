@@ -23,8 +23,8 @@
 			value="com.mysql.cj.jdbc.Driver"></property>
 		<property name="url"
 			value="jdbc:mysql://localhost:3306/ssafydb?serverTimezone=UTC"></property>
-		<property name="username" value="ssafy"></property>
-		<property name="password" value="ssafy"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="rladbwjd79!"></property>
 	</bean>
 
 	<!-- MyBatis를 사용하기 위한 sqlSessionFactory를 등록한다. -->

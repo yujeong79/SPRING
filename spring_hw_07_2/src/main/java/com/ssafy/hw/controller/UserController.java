@@ -71,13 +71,13 @@ public class UserController {
 		// 먼저 파일이 존재하는지 검사
 		if (file != null && file.getSize() > 0) {
 			// 파일을 저장할 위치 지정
-			Resource res = resLoader.getResource("resources/upload");
+			Resource res = resLoader.getResource("classpath:/static/img/");
 			// 중복방지를 위해 파일 이름앞에 현재 시간 추가
 			user.setImg(System.currentTimeMillis() + "_" + file.getOriginalFilename());
 			// User 객체에 원본 파일 이름 저장
 			user.setOrgImg(file.getOriginalFilename());
 			// 파일 저장
-			file.transferTo(new File(res.getFile().getCanonicalPath() + "/" + user.getImg()));
+			file.transferTo(new File(res.getFile(), user.getImg()));
 
 		}
 		// DB에 user 정보 등록
