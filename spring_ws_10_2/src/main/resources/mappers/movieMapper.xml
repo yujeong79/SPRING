@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.ws.model.dao.MovieDao">
+	
+	<!-- 전체 영화 조회 -->
+	<select id="selectAll">
+		SELECT * FROM movies;
+	</select>
+	
+	<!-- 영화 등록 -->
+	<insert id="insert" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO movies (Title, Director, Genre, RunningTime, img)
+		VALUES (#{title}, #{director}, #{genre}, #{runningTime}, #{img});
+	</insert>
+	
+	<!-- 영화 삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM movies
+		WHERE Id = #{id};
+	</delete>
+	
+	<!-- 제목으로 영화 조회 -->
+	<select id="selectByTitle" parameterType="string" resultType="Movie">
+		SELECT * FROM movies
+		WHERE Title LIKE CONCAT('%', #{title}, '%');
+	</select>
+	
+	<!-- id으로 영화 조회 -->
+	<select id="selectById" parameterType="int" resultType="Movie">
+		SELECT * FROM movies
+		WHERE Id = #{id};
+	</select>
+	
+</mapper>
