@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- 내가 연결하고 싶은 dao의 풀패키지명 작성 -->
+<mapper namespace="com.ssafy.mvc.model.dao.BoardDao">
+
+	<!-- mybatis.configuration.map-underscore-to-camel-case=true 
+		위의 설정을 application.properties에 추가해서 아래의 설정이 필요없다.
+	-->
+	<!-- 컬럼명과 필드명이 다른 경우 이렇게 미리 맞춰줄 수 있다! -->
+	<resultMap type="Board" id="boardMap">
+		<!-- <result column="id" property="id"/>
+		<result column="writer" property="writer"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/> 똑같은건 안써도 알아서 넣어준다. -->
+		<result column="view_cnt" property="viewCnt"/>
+		<result column="reg_date" property="regDate"/>
+	</resultMap>
+
+
+	<!-- 전체 게시글 조회 -->
+	<!-- id는 메서드명을 쓰고 resultType은 원래 풀패키지명을 사용해야하지만 config.xml에 typeAliases를 등록해서 사용할 수도 있다.  -->
+	<select id="selectAll" resultType="Board"> 
+		<!-- SELECT * FROM board; -->
+		
+		<!-- 컬럼명과 클래스의 필드명이 다르면 데이터를 가져오는데 문제가 발생할 수 있다. -->
+		SELECT id, content, writer, title, reg_date AS regDate, view_cnt AS viewCnt FROM board;
+		
+		<!-- 근데 또 위의 방법은 너무 귀찮아~  -->
+	</select>
+	
+	<!-- 상세 게시글 조회 1. resultMap으로 컬럼명과 필드명 맞춰주기 -->
+	<!-- <select id="selectOne" resultMap="boardMap" parameterType="int"> 파라미터를 두 개 이상 보내고 싶은 경우 Map 객체를 만들거나 dto를 보내거나
+		SELECT * FROM board
+		WHERE id = #{id};
+	</select> -->
+	
+	<select id="selectOne" resultType="Board" parameterType="int"> <!-- 파라미터를 두 개 이상 보내고 싶은 경우 Map 객체를 만들거나 dto를 보내거나 -->
+		SELECT * FROM board
+		WHERE id = #{id};
+	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard" parameterType="Board" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO board (title, writer, content)
+		VALUES (#{title}, #{writer}, #{content});	
+	</insert>
+	
+	<!-- 게시물 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board
+		WHERE id = #{id};
+	</delete>
+	
+	<!-- 조회수 증가-->
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE board
+		SET view_cnt = view_cnt+1
+		WHERE id = #{id};
+	</update>
+	
+	<!-- 게시물 내용 업데이트 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board
+		SET title = #{title}, content = #{content}, reg_date = now()
+		WHERE id = #{id};
+	</update>
+	
+	<!-- 게시물 검색 -->
+	<select id="search" resultType="Board" parameterType="SearchCondition">
+		SELECT * FROM board
+		<!-- 검색 기준 -->
+		<if test="key != null">
+			WHERE ${key} LIKE CONCAT('%', #{word}, '%')
+		</if>
+		<!-- 정렬 조건 -->
+		<if test="orderBy != null">
+			ORDER BY ${orderBy} ${orderByDir}
+		</if>
+	</select>
+	
+	<!-- 파일 업로드 -->
+	<insert id="insertFile" parameterType="Board">
+		INSERT INTO files (file_id, file_name, board_id)
+		VALUES (#{fileId}, #{fileName}, #{id});
+	</insert>
+	
+</mapper>

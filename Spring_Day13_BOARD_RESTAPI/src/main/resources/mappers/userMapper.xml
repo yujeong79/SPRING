@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- 내가 연결하고 싶은 dao의 풀패키지명 작성 -->
+<mapper namespace="com.ssafy.mvc.model.dao.UserDao">
+	<select id="selectOne" parameterType="Map" resultType="User">
+		SELECT id, name
+		FROM users
+		WHERE id = #{id} AND password = #{password}; 
+		<!-- #{key}를 넣어주면 알아서 key의 value값을 넣어준다. -->
+	</select>
+	
+	<select id="selectAll" resultType="User">
+		SELECT u.id id, u.password password, u.name name, c.name curriculumName
+		FROM users u, curriculum c <!-- JOIN -->
+		WHERE u.curriculum_code = c.code
+	</select>
+	
+	<insert id="insertUser">
+		INSERT INTO users (id, password, name, curriculum_code)
+		VALUES (#{id}, #{password}, #{name}, #{curriculumCode});
+	</insert>
+	
+</mapper>
