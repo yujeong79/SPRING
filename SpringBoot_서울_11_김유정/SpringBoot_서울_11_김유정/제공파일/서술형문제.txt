@@ -1,0 +1,7 @@
+문제 : 디스패처 서블릿(DispatcherServlet)은 Spring MVC에서 핵심적인 역할을 합니다. MVC 구조에서 클라이언트의 요청이 디스패처 서블릿을 통해 처리되는 과정을 설명하세요. 
+
+1. DispatcherServlet이 맨 처음 클라이언트의 요청을 받는다.
+2. DispatcherServlet이 해당 요청을 처리할 Controller에게 요청을 전달한다.
+3. Controller는 요청을 처리하고 ModelAndView를 반환한다.
+4. ViewResolver가 반환된 view에 prefix와 suffix를 붙여서 실제 view를 반환한다.
+5. View를 클라이언트에게 보여준다.

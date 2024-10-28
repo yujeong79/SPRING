@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.exam.model.dao.SpecialtyDao">
+	
+	<!--  specialty 객체 삽입 -->
+	<insert id="insertSpecialty">
+		INSERT INTO specialty (specialty_code, specialty_name)
+		VALUES (#{specialtyCode}, #{specialtyName});
+	</insert>
+	
+	<!-- code에 해당하는 specialty 객체 반환 -->
+	<select id="selectSpecialtyByCode">
+		SELECT * FROM specialty
+		WHERE specialty_code = #{code};
+	</select>
+	
+	<!-- code에 해당하는 specialty 객체 삭제 -->
+	<delete id="deleteSpecialty">
+		DELETE FROM specialty
+		WHERE specialty_code = #{code};
+	</delete>
+
+</mapper>

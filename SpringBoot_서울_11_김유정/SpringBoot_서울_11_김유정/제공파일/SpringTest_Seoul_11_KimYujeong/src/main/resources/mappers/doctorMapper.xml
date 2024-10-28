@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.exam.model.dao.DoctorDao">
+
+	<!-- doctor 객체 삽입 -->
+	<insert id="insertDoctor">
+		INSERT INTO doctor (doctor_id, name, age, specialty_code, experience_years)
+		VALUES (#{doctorId}, #{name}, #{age}, #{specialtyCode}, #{experienceYears});
+	</insert>
+	
+	<!-- 모든 doctor 객체 조회 -->
+	<select id="selectAllDoctors">
+		SELECT d.doctor_id AS doctorId, d.name AS name, d.age AS age, d.specialty_code AS specialtyCode, d.experience_years AS experienceYears, s.specialty_name AS specialtyName
+		FROM doctor d LEFT OUTER JOIN specialty s ON d.specialty_code = s.specialty_code;
+	</select>
+	
+	<!-- id에 해당하는 doctor 객체 조회 -->
+	<select id="selectDoctorById">
+		SELECT d.doctor_id AS doctorId, d.name AS name, d.age AS age, d.specialty_code AS specialtyCode, d.experience_years AS experienceYears, s.specialty_name AS specialtyName
+		FROM doctor d LEFT OUTER JOIN specialty s ON d.specialty_code = s.specialty_code
+		WHERE d.doctor_id = #{id};
+	</select>
+	
+	<!-- doctor 객체 수정 -->
+	<update id="updateDoctor">
+		UPDATE doctor
+		SET name = #{name}, age = #{age}, specialty_code = #{specialtyCode}, experience_years = #{experienceYears}
+		WHERE doctor_id = #{doctorId};
+	</update>
+	
+	<!-- doctor 객체 삭제 -->
+	<delete id="deleteDoctor">
+		DELETE FROM doctor
+		WHERE doctor_id = #{id};
+	</delete>
+		
+</mapper>
