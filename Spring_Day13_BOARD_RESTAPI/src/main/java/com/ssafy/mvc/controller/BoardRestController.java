@@ -1,10 +1,13 @@
 package com.ssafy.mvc.controller;
 
 import java.io.IOException;
+
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +32,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api-board") // api임을 명시해주기 위해서 보통 이렇게 쓴다.
 @Tag(name="BoardRestAPI Controller입니다.") // Swagger 문서
+@CrossOrigin("*") // 해당 컨트롤러에 들어오는 모든 요청을 허용
 public class BoardRestController {
 	
 	// 서비스 의존성 주입
@@ -38,24 +43,30 @@ public class BoardRestController {
 	}
 	
 	// 게시글 전체 조회
-//	@GetMapping("/board")
-//	public ResponseEntity<List<Board>> list() {
-//		List<Board> list = boardService.getBoardList();
-//		return new ResponseEntity<>(list, HttpStatus.OK);
-//	}
+	@GetMapping("/board")
+	@CrossOrigin(value="*", methods=RequestMethod.GET) // 모든 요청을 허용, GET 요청으로 들어온 
+	public ResponseEntity<List<Board>> list() {
+		List<Board> list = boardService.getBoardList();
+		
+		// CORS 에러를 방지하기 위한 설정
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.add("Access-Control-Allow-Origin", "*"); // 어떠한 곳에서 오던 모든 요청을 허용
+		
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 	
 	// 게시글 검색
-	@GetMapping("/board")
-	@Operation(summary="게시판 검색 기능입니다.") // Swagger 문서
-	public ResponseEntity<?> list(@ModelAttribute SearchCondition condition) {
-		List<Board> list = boardService.search(condition);
-		
-		if(list == null || list.size() == 0) { // 검색 조건에 부합하는 데이터가 없는 경우
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT); // 204번
-		}
-		
-		return new ResponseEntity<List<Board>>(list, HttpStatus.OK);
-	}
+//	@GetMapping("/board")
+//	@Operation(summary="게시판 검색 기능입니다.") // Swagger 문서
+//	public ResponseEntity<?> list(@ModelAttribute SearchCondition condition) {
+//		List<Board> list = boardService.search(condition);
+//		
+//		if(list == null || list.size() == 0) { // 검색 조건에 부합하는 데이터가 없는 경우
+//			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT); // 204번
+//		}
+//		
+//		return new ResponseEntity<List<Board>>(list, HttpStatus.OK);
+//	}
 	
 	
 	// 게시글 상세 보기
